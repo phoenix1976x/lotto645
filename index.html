@@ -30,7 +30,7 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--b);outline-off
 .rows{border-top:1px dashed var(--line);border-bottom:1px dashed var(--line);padding:8px 0}
 .row{display:flex;align-items:center;gap:8px;padding:5px 0}
 .lab{width:16px;font-weight:800}
-.tag{font-size:11px;font-weight:700;width:30px;text-align:center;border:1px solid var(--ink);border-radius:3px;padding:1px 0}
+.tag{font-size:10px;font-weight:700;width:36px;text-align:center;border:1px solid var(--ink);border-radius:3px;padding:1px 0;white-space:nowrap}
 .tag.off{border-color:transparent}
 .nums{flex:1;display:flex;justify-content:flex-end;gap:5px}
 .ball{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px;font-variant-numeric:tabular-nums}
@@ -39,9 +39,21 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--b);outline-off
 .amt{display:flex;justify-content:space-between;font-weight:800;margin:10px 0}
 .bar{height:36px;background:repeating-linear-gradient(90deg,#222 0 2px,#0000 2px 4px,#222 4px 5px,#0000 5px 9px,#222 9px 12px,#0000 12px 14px);opacity:.85}
 .fine{font-size:10px;color:#888;margin-top:6px;text-align:center}
-.opt{display:flex;gap:10px;align-items:flex-start;margin:0 0 16px;font-size:14px;cursor:pointer}
+.opt{display:flex;gap:10px;align-items:flex-start;margin:0 0 12px;font-size:14px;cursor:pointer}
 .opt input{width:20px;height:20px;margin-top:2px;flex:none}
 .opt small{display:block;color:var(--mut);font-size:12px}
+.fixbox{margin:0 0 16px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);overflow:hidden}
+.fixhd{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;font-size:13px;font-weight:700;cursor:pointer;user-select:none}
+.fixhd span.sub{font-weight:400;color:#6b7080;font-size:12px;margin-left:6px}
+.fixbody{display:none;padding:0 12px 12px;border-top:1px dashed var(--line)}
+.fixbody.open{display:block}
+.fixtop{display:flex;justify-content:space-between;align-items:center;margin:10px 0 8px;font-size:12px;color:#555}
+.fixclr{padding:4px 10px;font-size:12px;border-radius:6px;cursor:pointer;background:transparent}
+.grid45{display:grid;grid-template-columns:repeat(9,1fr);gap:5px}
+.nbtn{padding:7px 0;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:13px;font-weight:700;cursor:pointer;text-align:center}
+.nbtn.on{color:#fff;border-color:transparent}
+.nbtn.on.y{background:var(--y);color:#2a2200}.nbtn.on.b{background:var(--b)}.nbtn.on.r{background:var(--r)}.nbtn.on.g{background:var(--g)}.nbtn.on.n{background:var(--n)}
+@media (max-width:380px){.grid45{grid-template-columns:repeat(7,1fr)}}
 .act{margin-top:16px;display:flex;gap:8px}
 .act button{flex:1;cursor:pointer}
 .note{margin-top:18px;font-size:12px;color:var(--mut)}
@@ -56,6 +68,13 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--b);outline-off
 <button class="main" id="go">자동으로 뽑기</button>
 </div>
 <label class="opt"><input type="checkbox" id="smart"><span>당첨금 나눠먹기 줄이기<small>당첨 확률은 그대로예요. 생일 번호(1~31)와 연속 번호를 덜 쓰는 방식이라, 1등이 되어도 다른 사람과 겹칠 가능성이 줄어요.</small></span></label>
+<div class="fixbox">
+<div class="fixhd" id="fixToggle" role="button" tabindex="0" aria-expanded="false"><span>고정 번호 고르기 (반자동)<span class="sub" id="fixSummary">선택 안 함</span></span><span id="fixArrow">▾</span></div>
+<div class="fixbody" id="fixBody">
+<div class="fixtop"><span>1~5개를 고르면 나머지 번호만 자동으로 채워져요.</span><button type="button" class="fixclr" id="fixClr">초기화</button></div>
+<div class="grid45" id="grid45"></div>
+</div>
+</div>
 <div class="ticket" id="ticket">
 <div class="hd"><b>Lotto 6/45</b><span id="rd"></span></div>
 <div class="meta"><i>발행일</i><span id="d1"></span><i>추첨일</i><span id="d2"></span><i>지급기한</i><span id="d3"></span></div>
@@ -69,24 +88,70 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--b);outline-off
 </main>
 <script>
 var games=[];
+var fixed=[];
+var lastSemi=false;
 function cls(n){return n<=10?'y':n<=20?'b':n<=30?'r':n<=40?'g':'n'}
 function p2(n){return n<10?'0'+n:''+n}
 function fmt(d){return d.getFullYear()+'/'+p2(d.getMonth()+1)+'/'+p2(d.getDate())}
-function pick(){
-  var a=[];
+function pick(fx){
+  var a=fx?fx.slice():[];
   while(a.length<6){var n=Math.floor(Math.random()*45)+1;if(a.indexOf(n)<0)a.push(n)}
   return a.sort(function(x,y){return x-y});
 }
-function pickSmart(){
+function pickSmart(fx){
   for(var t=0;t<500;t++){
-    var a=pick();
+    var a=pick(fx);
     var hi=a.filter(function(n){return n>=32}).length;
     var run=false;
     for(var i=2;i<6;i++){if(a[i]-a[i-2]===2)run=true}
     if(hi>=3&&!run)return a;
   }
-  return pick();
+  return pick(fx);
 }
+function updateFixUI(){
+  var sum=document.getElementById('fixSummary');
+  var go=document.getElementById('go');
+  if(fixed.length){
+    sum.textContent=fixed.slice().sort(function(a,b){return a-b}).join(', ')+' ('+fixed.length+'/5)';
+    go.textContent='반자동으로 뽑기';
+  }else{
+    sum.textContent='선택 안 함';
+    go.textContent='자동으로 뽑기';
+  }
+  var btns=document.getElementById('grid45').children;
+  for(var i=0;i<btns.length;i++){
+    var n=i+1;
+    var on=fixed.indexOf(n)>=0;
+    btns[i].className='nbtn'+(on?' on '+cls(n):'');
+  }
+}
+(function initGrid(){
+  var g=document.getElementById('grid45');
+  for(var n=1;n<=45;n++){
+    (function(num){
+      var b=document.createElement('button');
+      b.type='button';b.className='nbtn';b.textContent=num;
+      b.onclick=function(){
+        var idx=fixed.indexOf(num);
+        if(idx>=0)fixed.splice(idx,1);
+        else if(fixed.length<5)fixed.push(num);
+        updateFixUI();
+      };
+      g.appendChild(b);
+    })(n);
+  }
+  var tog=document.getElementById('fixToggle');
+  var body=document.getElementById('fixBody');
+  var arr=document.getElementById('fixArrow');
+  function toggle(){
+    var open=body.classList.toggle('open');
+    tog.setAttribute('aria-expanded',open?'true':'false');
+    arr.textContent=open?'▴':'▾';
+  }
+  tog.onclick=toggle;
+  tog.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle()}};
+  document.getElementById('fixClr').onclick=function(){fixed=[];updateFixUI()};
+})();
 function dates(){
   var now=new Date();
   var draw=new Date(now.getFullYear(),now.getMonth(),now.getDate());
@@ -107,7 +172,7 @@ function render(){
     var g=games[i];
     var row=document.createElement('div');row.className='row';
     var lab=document.createElement('span');lab.className='lab';lab.textContent=String.fromCharCode(65+i);
-    var tag=document.createElement('span');tag.className='tag'+(g?'':' off');tag.textContent=g?'자동':'';
+    var tag=document.createElement('span');tag.className='tag'+(g?'':' off');tag.textContent=g?(lastSemi?'반자동':'자동'):'';
     var nums=document.createElement('div');nums.className='nums';
     for(var k=0;k<6;k++){
       var b=document.createElement('span');
@@ -122,7 +187,8 @@ function render(){
 document.getElementById('go').onclick=function(){
   var c=parseInt(document.getElementById('cnt').value,10);
   var smart=document.getElementById('smart').checked;
-  games=[];for(var i=0;i<c;i++)games.push(smart?pickSmart():pick());
+  lastSemi=fixed.length>0;
+  games=[];for(var i=0;i<c;i++)games.push(smart?pickSmart(fixed):pick(fixed));
   dates();render();
 };
 document.getElementById('copy').onclick=function(){
