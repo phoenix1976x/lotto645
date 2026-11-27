@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>로또 6/45 번호 뽑기</title>
+<style>
+:root{--bg:#e9ecf3;--fg:#1d2230;--mut:#6b7080;--paper:#fffdf6;--ink:#2a2a2a;--line:#cfcab8;--btn:#d8453a;--btnfg:#fff;
+--y:#f2b705;--b:#2f6fdb;--r:#d8453a;--g:#7a8090;--n:#2e9e5b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151c;--fg:#eef0f5;--mut:#9aa0b0}}
+:root[data-theme="dark"]{--bg:#12151c;--fg:#eef0f5;--mut:#9aa0b0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;line-height:1.5}
+main{max-width:420px;margin:0 auto;padding:24px 16px 40px}
+h1{font-size:22px;margin:0 0 14px;letter-spacing:-.02em}
+.ctl{display:flex;gap:8px;margin-bottom:18px}
+select,button{font:inherit;border-radius:10px;border:1px solid var(--line);padding:12px 14px;background:var(--paper);color:var(--ink)}
+button.main{flex:1;background:var(--btn);color:var(--btnfg);border:0;font-weight:700;cursor:pointer}
+button:focus-visible,select:focus-visible{outline:3px solid var(--b);outline-offset:2px}
+.ticket{background:var(--paper);color:var(--ink);border-radius:6px;padding:16px 16px 14px;box-shadow:0 6px 18px rgba(0,0,0,.18);position:relative;
+ -webkit-mask:radial-gradient(circle 7px at 7px 0,#0000 98%,#000) top/14px 51% repeat-x,radial-gradient(circle 7px at 7px 100%,#0000 98%,#000) bottom/14px 51% repeat-x;
+ mask:radial-gradient(circle 7px at 7px 0,#0000 98%,#000) top/14px 51% repeat-x,radial-gradient(circle 7px at 7px 100%,#0000 98%,#000) bottom/14px 51% repeat-x}
+.hd{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--ink);padding-bottom:6px}
+.hd b{font-size:22px;font-style:italic;letter-spacing:-.02em}
+.hd span{font-size:13px;font-weight:700}
+.meta{font-size:12px;margin:8px 0 10px;display:grid;grid-template-columns:auto 1fr;gap:2px 10px}
+.meta i{font-style:normal;color:#777}
+.rows{border-top:1px dashed var(--line);border-bottom:1px dashed var(--line);padding:8px 0}
+.row{display:flex;align-items:center;gap:8px;padding:5px 0}
+.lab{width:16px;font-weight:800}
+.tag{font-size:11px;font-weight:700;width:30px;text-align:center;border:1px solid var(--ink);border-radius:3px;padding:1px 0}
+.tag.off{border-color:transparent}
+.nums{flex:1;display:flex;justify-content:flex-end;gap:5px}
+.ball{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px;font-variant-numeric:tabular-nums}
+.ball.y{background:var(--y);color:#2a2200}.ball.b{background:var(--b)}.ball.r{background:var(--r)}.ball.g{background:var(--g)}.ball.n{background:var(--n)}
+.ball.e{background:none;color:#aaa;font-weight:400}
+.amt{display:flex;justify-content:space-between;font-weight:800;margin:10px 0}
+.bar{height:36px;background:repeating-linear-gradient(90deg,#222 0 2px,#0000 2px 4px,#222 4px 5px,#0000 5px 9px,#222 9px 12px,#0000 12px 14px);opacity:.85}
+.fine{font-size:10px;color:#888;margin-top:6px;text-align:center}
+.opt{display:flex;gap:10px;align-items:flex-start;margin:0 0 16px;font-size:14px;cursor:pointer}
+.opt input{width:20px;height:20px;margin-top:2px;flex:none}
+.opt small{display:block;color:var(--mut);font-size:12px}
+.act{margin-top:16px;display:flex;gap:8px}
+.act button{flex:1;cursor:pointer}
+.note{margin-top:18px;font-size:12px;color:var(--mut)}
+@media (max-width:380px){.ball{width:29px;height:29px;font-size:12px}.nums{gap:3px}}
+</style>
+</head>
+<body>
+<main>
+<h1>로또 6/45 번호 뽑기</h1>
+<div class="ctl">
+<select id="cnt" aria-label="게임 수"><option value="1">1게임</option><option value="2">2게임</option><option value="3">3게임</option><option value="4">4게임</option><option value="5" selected>5게임</option></select>
+<button class="main" id="go">자동으로 뽑기</button>
+</div>
+<label class="opt"><input type="checkbox" id="smart"><span>당첨금 나눠먹기 줄이기<small>당첨 확률은 그대로예요. 생일 번호(1~31)와 연속 번호를 덜 쓰는 방식이라, 1등이 되어도 다른 사람과 겹칠 가능성이 줄어요.</small></span></label>
+<div class="ticket" id="ticket">
+<div class="hd"><b>Lotto 6/45</b><span id="rd"></span></div>
+<div class="meta"><i>발행일</i><span id="d1"></span><i>추첨일</i><span id="d2"></span><i>지급기한</i><span id="d3"></span></div>
+<div class="rows" id="rows"></div>
+<div class="amt"><span>금액</span><span id="amt">₩0</span></div>
+<div class="bar" aria-hidden="true"></div>
+<div class="fine">참고용 가상 용지예요. 실제 복권이 아니에요.</div>
+</div>
+<div class="act"><button id="copy">결과 복사</button></div>
+<p class="note">재미로만 즐겨주세요. 모든 번호의 당첨 확률은 같아요. 동행복권과는 관련이 없는 페이지예요.<br>© Phoenix Academy (@phoenix1976x)</p>
+</main>
+<script>
+var games=[];
+function cls(n){return n<=10?'y':n<=20?'b':n<=30?'r':n<=40?'g':'n'}
+function p2(n){return n<10?'0'+n:''+n}
+function fmt(d){return d.getFullYear()+'/'+p2(d.getMonth()+1)+'/'+p2(d.getDate())}
+function pick(){
+  var a=[];
+  while(a.length<6){var n=Math.floor(Math.random()*45)+1;if(a.indexOf(n)<0)a.push(n)}
+  return a.sort(function(x,y){return x-y});
+}
+function pickSmart(){
+  for(var t=0;t<500;t++){
+    var a=pick();
+    var hi=a.filter(function(n){return n>=32}).length;
+    var run=false;
+    for(var i=2;i<6;i++){if(a[i]-a[i-2]===2)run=true}
+    if(hi>=3&&!run)return a;
+  }
+  return pick();
+}
+function dates(){
+  var now=new Date();
+  var draw=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  var add=(6-draw.getDay()+7)%7;
+  if(add===0&&now.getHours()>=21)add=7;
+  draw.setDate(draw.getDate()+add);
+  var first=new Date(2002,11,7);
+  var round=Math.round((draw-first)/604800000)+1;
+  var pay=new Date(draw);pay.setFullYear(pay.getFullYear()+1);
+  document.getElementById('rd').textContent='제 '+round+'회';
+  document.getElementById('d1').textContent=fmt(now)+' '+p2(now.getHours())+':'+p2(now.getMinutes());
+  document.getElementById('d2').textContent=fmt(draw);
+  document.getElementById('d3').textContent=fmt(pay);
+}
+function render(){
+  var rows=document.getElementById('rows');rows.innerHTML='';
+  for(var i=0;i<5;i++){
+    var g=games[i];
+    var row=document.createElement('div');row.className='row';
+    var lab=document.createElement('span');lab.className='lab';lab.textContent=String.fromCharCode(65+i);
+    var tag=document.createElement('span');tag.className='tag'+(g?'':' off');tag.textContent=g?'자동':'';
+    var nums=document.createElement('div');nums.className='nums';
+    for(var k=0;k<6;k++){
+      var b=document.createElement('span');
+      if(g){b.className='ball '+cls(g[k]);b.textContent=p2(g[k])}
+      else{b.className='ball e';b.textContent='-'}
+      nums.appendChild(b);
+    }
+    row.appendChild(lab);row.appendChild(tag);row.appendChild(nums);rows.appendChild(row);
+  }
+  document.getElementById('amt').textContent='₩'+(games.length*1000).toLocaleString('ko-KR');
+}
+document.getElementById('go').onclick=function(){
+  var c=parseInt(document.getElementById('cnt').value,10);
+  var smart=document.getElementById('smart').checked;
+  games=[];for(var i=0;i<c;i++)games.push(smart?pickSmart():pick());
+  dates();render();
+};
+document.getElementById('copy').onclick=function(){
+  if(!games.length)return;
+  var t=games.map(function(g,i){return String.fromCharCode(65+i)}).map(function(l,i){return l+'  '+games[i].map(p2).join(' ')}).join('\n');
+  var btn=this;
+  function done(){btn.textContent='복사했어요';setTimeout(function(){btn.textContent='결과 복사'},1500)}
+  try{navigator.clipboard.writeText(t).then(done,function(){})}catch(e){}
+};
+dates();render();
+</script>
+</body>
+</html>
