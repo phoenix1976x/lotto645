@@ -946,10 +946,9 @@ function tjDayInfo(saju,code,dow,label){
   var luck=tjLuck(saju,code,score,hasChung);
 
   return {
-    label:label,hz:stem+br,ko:tjKo(stem+br),elTxt:(sEl||'-')+'·'+(bEl||'-'),
+    label:label,hz:stem+br,ko:tjKo(stem+br),elTxt:(sEl===bEl?sEl:(sEl||'-')+'·'+(bEl||'-')),
     dow:dow,grade:grade,pills:pills.join(''),
-    summary:'오늘 들어오는 기운은 '+sTen+'('+sInfo.label+')'+
-      (rels.length?'이고, 내 '+rels[0].who+' 지지와 '+rels[0].types.map(function(t){return TJ_REL_NAME[t]}).join('·')+'으로 이어져요.':'이고, 내 사주 지지와 부딪히는 곳은 없어요.'),
+    summary:rels.length?'오늘 들어오는 기운은 '+sTen+'('+sInfo.label+')예요. 내 '+rels[0].who+' 지지와는 '+rels[0].types.map(function(t){return TJ_REL_NAME[t]}).join('·')+' 관계예요.':'오늘 들어오는 기운은 '+sTen+'('+sInfo.label+')예요. 내 사주 지지와 부딪히거나 얽히는 곳은 없어요.',
     good:goodList.slice(0,2).join(' '),
     warn:warnList.slice(0,2).join(' '),
     money:{title:mTalk.t,cls:mTalk.c,text:mTalk.d},
@@ -964,19 +963,20 @@ var TJ_FIVE_NUM={'목':[3,8],'화':[2,7],'토':[5,10],'금':[4,9],'수':[1,6]};
 var TJ_FIVE_COLOR={'목':'초록','화':'빨강','토':'노랑(황토)','금':'흰색(은색)','수':'파랑(검정)'};
 function tjLuck(saju,code,score,hasChung){
   var day=saju.pillarDetails.day;
-  var els=[];
+  var els=[],showEls=[];
   function push(e){if(e&&els.indexOf(e)<0)els.push(e)}
-  push(TJ_STEM_EL[code.charAt(0)]);
-  push(TJ_BRANCH_EL[code.charAt(1)]);
+  function pushShow(e){if(e&&showEls.indexOf(e)<0){showEls.push(e);push(e)}}
+  pushShow(TJ_STEM_EL[code.charAt(0)]);
+  pushShow(TJ_BRANCH_EL[code.charAt(1)]);
   push(day.element.stem);
   ((saju.advanced&&saju.advanced.yongsin)||[]).forEach(function(c){push(TJ_STEM_EL[c])});
-  var showDigits=[],poolDigits=[];
+  var poolDigits=[];
   els.forEach(function(e){
     (TJ_FIVE_NUM[e]||[]).forEach(function(n){
-      if(showDigits.indexOf(n)<0) showDigits.push(n);
       if(n<=9&&poolDigits.indexOf(n)<0) poolDigits.push(n);
     });
   });
+  var digitsTxt=showEls.map(function(e){return e+' '+(TJ_FIVE_NUM[e]||[]).join('·')}).join(' / ');
   var seed=0,src=code+day.stem+day.branch+String(saju.currentYear||'');
   for(var i=0;i<src.length;i++) seed=(seed*131+src.charCodeAt(i)*7+17)%100003;
   function rnd(){seed=(seed*1103515245+12345)%2147483648;return seed/2147483648}
@@ -993,13 +993,13 @@ function tjLuck(saju,code,score,hasChung){
   if(hasChung){title='기대는 낮추고 재미로';cls=' w';text='번호를 고르는 마음이 급해지기 쉬운 날이에요. 한 장만, 재미로 즐기세요.';}
   else if(score>=2.5){title='가볍게 한 장 즐기기 좋은 날';cls=' g';text='기분 좋게 번호를 고르기 좋은 날이에요. 그래도 당첨은 철저히 운이라는 점은 그대로예요.';}
   else{title='평소처럼 가볍게';cls='';text='오늘은 평소 고르던 방식 그대로, 한 장만 가볍게 즐겨 보세요.';}
-  return {title:title,cls:cls,text:text,nums:pick,color:TJ_FIVE_COLOR[els[0]]||'초록',digits:showDigits,els:els};
+  return {title:title,cls:cls,text:text,nums:pick,color:TJ_FIVE_COLOR[showEls[0]]||'초록',digitsTxt:digitsTxt,els:showEls};
 }
 
 function tjCardHtml(d,isToday){
   var h='<article class="'+(isToday?'daycard':'daycard tmr')+'">';
   h+='<div class="dchead"><span class="dctag">'+d.label+'</span><span class="dcdate">'+d.dateTxt+'</span></div>';
-  h+='<div class="dcgan"><span class="hz">'+d.hz+'</span><span class="ko">'+d.ko+'</span><span class="el">'+d.elTxt+' 오행</span></div>';
+  h+='<div class="dcgan"><span class="hz">'+d.hz+'</span><span class="ko">'+d.ko+'</span><span class="el">오행 '+d.elTxt+'</span></div>';
   h+='<p class="dcgrade">'+d.grade+'</p>';
   h+='<div class="dcsec">내 사주와 어떻게 맞는지</div>';
   h+='<div class="pills">'+d.pills+'</div>';
@@ -1011,7 +1011,7 @@ function tjCardHtml(d,isToday){
   h+='<div class="mnyrow"><div class="lb"><i>📈</i>주식·단타 컨디션 <span class="tier'+d.stock.cls+'">'+d.stock.tier+'</span></div><p>'+tjEsc(d.stock.text)+'</p></div>';
   h+='<div class="mnyrow"><div class="lb"><i>🍀</i>로또·행운 숫자 운 <span class="tier'+d.luck.cls+'">'+d.luck.title+'</span></div><p>'+tjEsc(d.luck.text)+'</p>';
   h+='<div class="lnums">'+d.luck.nums.map(function(n){return '<span class="lnum">'+tjPad(n)+'</span>'}).join('')+'</div>';
-  h+='<p class="lcol">행운 색 '+d.luck.color+' · 오늘의 오행 숫자 '+d.luck.digits.join('·')+'</p>';
+  h+='<p class="lcol">행운 색 '+d.luck.color+' · 오늘의 오행 숫자 '+d.luck.digitsTxt+'</p>';
   h+='<p class="dis">당첨 확률은 모든 번호가 동일하며, 오직 재미·참고용입니다.</p></div>';
   h+='<p class="dis">주식·금전 내용은 투자 권유나 매매 판단 근거가 아닌 재미·참고용입니다.</p>';
   h+='</div>';
