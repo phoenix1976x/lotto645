@@ -102,6 +102,9 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--b);outline-off
 .dsel.on.c4{background:var(--d4)}.dsel.on.c5{background:var(--d5)}.dsel.on.c6{background:var(--d6)}
 .act{margin-top:16px;display:flex;gap:8px}
 .act button{flex:1;cursor:pointer}
+.cd{display:flex;justify-content:space-between;align-items:center;margin:0 0 12px;padding:9px 12px;border-radius:10px;background:var(--paper);border:1px solid var(--line);color:var(--ink);font-size:12px}
+.cd b{font-variant-numeric:tabular-nums;font-size:13px;color:var(--btn)}
+.cd.pcd b{color:var(--pbtn)}
 .note{margin-top:18px;font-size:12px;color:var(--mut)}
 @media (max-width:380px){.grid45{grid-template-columns:repeat(7,1fr)}.ball{width:29px;height:29px;font-size:12px}.pball{width:27px;height:27px;font-size:12px}.jo{width:27px;height:27px;font-size:11px}.nums{gap:3px}}
 </style>
@@ -127,6 +130,7 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--b);outline-off
 <div class="grid45" id="grid45"></div>
 </div>
 </div>
+<div class="cd"><span>판매 마감까지 남은 시간</span><b id="l_cd">-</b></div>
 <div class="ticket" id="ticket">
 <div class="hd"><b>Lotto 6/45</b><span id="rd"></span></div>
 <div class="meta"><i>발행일</i><span id="d1"></span><i>추첨일</i><span id="d2"></span><i>지급기한</i><span id="d3"></span></div>
@@ -157,6 +161,7 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--b);outline-off
 <div class="dgrid" id="p_dgrid"></div>
 </div>
 </div>
+<div class="cd pcd"><span>판매 마감까지 남은 시간</span><b id="p_cd">-</b></div>
 <div class="ticket" id="p_ticket">
 <div class="hd"><b class="phd">연금복권 720+</b><span id="p_rd"></span></div>
 <div class="meta"><i>발행일</i><span id="p_d1"></span><i>추첨일</i><span id="p_d2"></span><i>지급기한</i><span id="p_d3"></span></div>
@@ -445,6 +450,37 @@ document.getElementById('p_copy').onclick=function(){
   function done(){btn.textContent='복사했어요!';setTimeout(function(){btn.textContent='결과 복사'},1500)}
   try{navigator.clipboard.writeText(txt).then(done,function(){})}catch(e){}
 };
+function fmtCd(ms){
+  if(ms<=0) return '마감 (다음 회차 준비 중)';
+  var sec=Math.floor(ms/1000);
+  var d=Math.floor(sec/86400);
+  var h=Math.floor((sec%86400)/3600);
+  var m=Math.floor((sec%3600)/60);
+  var s=sec%60;
+  return (d>0?d+'일 ':'')+p2(h)+'시간 '+p2(m)+'분 '+p2(s)+'초';
+}
+function updateCountdowns(){
+  var now=new Date();
+  // 로또: 매주 토요일 20:00 마감
+  var lDay=now.getDay();
+  var lAdd=(6-lDay+7)%7;
+  var lClose=new Date(now.getFullYear(),now.getMonth(),now.getDate()+lAdd,20,0,0,0);
+  if(lAdd===0 && now>=lClose) lClose.setDate(lClose.getDate()+7);
+  document.getElementById('l_cd').textContent=fmtCd(lClose.getTime()-now.getTime());
+  // 연금복권: 매주 목요일 17:00 마감
+  var pDay=now.getDay();
+  var pAdd=(4-pDay+7)%7;
+  var pClose=new Date(now.getFullYear(),now.getMonth(),now.getDate()+pAdd,17,0,0,0);
+  if(pAdd===0 && now>=pClose){
+    // 목요일 17:00~19:05 추첨 전까지는 마감 상태, 19:05 이후엔 다음 주 목요일
+    var pDraw=new Date(now.getFullYear(),now.getMonth(),now.getDate(),19,5,0,0);
+    if(now<pDraw){document.getElementById('p_cd').textContent='판매 마감 (오늘 19:05 추첨)';return}
+    pClose.setDate(pClose.getDate()+7);
+  }
+  document.getElementById('p_cd').textContent=fmtCd(pClose.getTime()-now.getTime());
+}
+updateCountdowns();
+setInterval(updateCountdowns,1000);
 </script>
 </body>
 </html>
