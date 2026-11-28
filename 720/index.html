@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>연금복권 720+ 번호 뽑기</title>
+<meta name="description" content="오늘 내 운 시험해 보기 · 낱장/세트 &amp; 조·자리별 고정 반자동 지원 (재미용 가상 용지)">
+<meta property="og:title" content="연금복권 720+ 번호 뽑기 — 낱장 · 세트 · 반자동">
+<meta property="og:description" content="오늘 내 운 시험해 보기 · 낱장/세트 &amp; 조·자리별 고정 반자동 지원 (재미용 가상 용지)">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://phoenix1976x.github.io/lotto645/720/">
+<meta property="og:site_name" content="Phoenix Academy">
+<meta property="og:image" content="https://phoenix1976x.github.io/lotto645/720/og-preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="연금복권 720+ 번호 뽑기 화면 — 낱장/세트, 조 및 자리별 반자동">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="연금복권 720+ 번호 뽑기 — 낱장 · 세트 · 반자동">
+<meta name="twitter:description" content="오늘 내 운 시험해 보기 · 낱장/세트 &amp; 조·자리별 고정 반자동 지원 (재미용 가상 용지)">
+<meta name="twitter:image" content="https://phoenix1976x.github.io/lotto645/720/og-preview.png">
+<style>
+:root{--bg:#f4efe6;--fg:#1d2230;--mut:#6b7080;--paper:#fffdf6;--ink:#2a2a2a;--line:#d8ccb8;--btn:#e87717;--btnfg:#fff;
+--d1:#e64938;--d2:#f58220;--d3:#eab000;--d4:#2a85e8;--d5:#8a4de8;--d6:#7d8390;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151c;--fg:#eef0f5;--mut:#9aa0b0}}
+:root[data-theme="dark"]{--bg:#12151c;--fg:#eef0f5;--mut:#9aa0b0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;line-height:1.5}
+main{max-width:420px;margin:0 auto;padding:24px 16px 40px}
+h1{font-size:22px;margin:0 0 14px;letter-spacing:-.02em}
+.ctl{display:flex;gap:8px;margin-bottom:14px}
+select,button{font:inherit;border-radius:10px;border:1px solid var(--line);padding:12px 12px;background:var(--paper);color:var(--ink)}
+button.main{flex:1;background:var(--btn);color:var(--btnfg);border:0;font-weight:700;cursor:pointer}
+button:focus-visible,select:focus-visible{outline:3px solid var(--d4);outline-offset:2px}
+.opt{display:flex;gap:10px;align-items:flex-start;margin:0 0 12px;font-size:14px;cursor:pointer}
+.opt input{width:20px;height:20px;margin-top:2px;flex:none}
+.opt small{display:block;color:var(--mut);font-size:12px}
+.fixbox{margin:0 0 16px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);overflow:hidden}
+.fixhd{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;font-size:13px;font-weight:700;cursor:pointer;user-select:none}
+.fixhd span.sub{font-weight:400;color:#6b7080;font-size:12px;margin-left:6px}
+.fixbody{display:none;padding:0 12px 12px;border-top:1px dashed var(--line)}
+.fixbody.open{display:block}
+.fixtop{display:flex;justify-content:space-between;align-items:center;margin:10px 0 8px;font-size:12px;color:#555}
+.fixclr{padding:4px 10px;font-size:12px;border-radius:6px;cursor:pointer;background:transparent}
+.joRow{display:flex;align-items:center;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.joRow span.lbl{font-size:12px;font-weight:700;color:#555;margin-right:4px}
+.jbtn{padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:12px;font-weight:700;cursor:pointer}
+.jbtn.on{background:var(--btn);color:#fff;border-color:transparent}
+.jbtn:disabled{opacity:.45;cursor:not-allowed}
+.dgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.dcol{display:flex;flex-direction:column;align-items:center;gap:4px}
+.dcol small{font-size:10px;color:#777}
+.dsel{width:100%;padding:8px 2px;text-align:center;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:14px;font-weight:800}
+.dsel.on{color:#fff;border-color:transparent}
+.dsel.on.c1{background:var(--d1)}.dsel.on.c2{background:var(--d2)}.dsel.on.c3{background:var(--d3);color:#2a2200}
+.dsel.on.c4{background:var(--d4)}.dsel.on.c5{background:var(--d5)}.dsel.on.c6{background:var(--d6)}
+.ticket{background:var(--paper);color:var(--ink);border-radius:6px;padding:16px 16px 14px;box-shadow:0 6px 18px rgba(0,0,0,.16);position:relative;
+ -webkit-mask:radial-gradient(circle 7px at 7px 0,#0000 98%,#000) top/14px 51% repeat-x,radial-gradient(circle 7px at 7px 100%,#0000 98%,#000) bottom/14px 51% repeat-x;
+ mask:radial-gradient(circle 7px at 7px 0,#0000 98%,#000) top/14px 51% repeat-x,radial-gradient(circle 7px at 7px 100%,#0000 98%,#000) bottom/14px 51% repeat-x}
+.hd{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--ink);padding-bottom:6px}
+.hd b{font-size:20px;letter-spacing:-.02em;color:#d66408}
+.hd span{font-size:13px;font-weight:700}
+.meta{font-size:12px;margin:8px 0 10px;display:grid;grid-template-columns:auto 1fr;gap:2px 10px}
+.meta i{font-style:normal;color:#777}
+.rows{border-top:1px dashed var(--line);border-bottom:1px dashed var(--line);padding:8px 0}
+.row{display:flex;align-items:center;gap:6px;padding:6px 0}
+.lab{width:16px;font-weight:800;font-size:13px}
+.tag{font-size:10px;font-weight:700;width:34px;text-align:center;border:1px solid var(--ink);border-radius:3px;padding:1px 0;white-space:nowrap}
+.jo{width:32px;height:32px;border-radius:50%;border:2px solid #c7c0b0;display:grid;place-items:center;font-size:12px;font-weight:800;color:#444;background:#fff;flex:none}
+.jow{font-size:12px;font-weight:700;color:#555;margin-right:2px}
+.nums{flex:1;display:flex;justify-content:flex-end;gap:4px}
+.ball{width:31px;height:31px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px;font-variant-numeric:tabular-nums;border:2px solid transparent}
+.ball.c1{background:#fff;color:var(--d1);border-color:var(--d1)}
+.ball.c2{background:#fff;color:var(--d2);border-color:var(--d2)}
+.ball.c3{background:#fff;color:#c98d00;border-color:var(--d3)}
+.ball.c4{background:#fff;color:var(--d4);border-color:var(--d4)}
+.ball.c5{background:#fff;color:var(--d5);border-color:var(--d5)}
+.ball.c6{background:#fff;color:var(--d6);border-color:var(--d6)}
+.ball.fx{color:#fff}
+.ball.fx.c1{background:var(--d1)}.ball.fx.c2{background:var(--d2)}.ball.fx.c3{background:var(--d3);color:#2a2200}
+.ball.fx.c4{background:var(--d4)}.ball.fx.c5{background:var(--d5)}.ball.fx.c6{background:var(--d6)}
+.amt{display:flex;justify-content:space-between;font-weight:800;margin:10px 0}
+.bar{height:34px;background:repeating-linear-gradient(90deg,#222 0 2px,#0000 2px 4px,#222 4px 5px,#0000 5px 9px,#222 9px 12px,#0000 12px 14px);opacity:.85}
+.fine{font-size:10px;color:#888;margin-top:6px;text-align:center}
+.act{margin-top:16px;display:flex;gap:8px}
+.act button{flex:1;cursor:pointer}
+.note{margin-top:18px;font-size:12px;color:var(--mut)}
+@media (max-width:380px){.ball{width:27px;height:27px;font-size:12px}.jo{width:28px;height:28px;font-size:11px}.nums{gap:3px}}
+</style>
+</head>
+<body>
+<main>
+<h1>연금복권 720+ 번호 뽑기</h1>
+<div class="ctl">
+<select id="mode" aria-label="구매 방식">
+<option value="single1">낱장 1장 (1,000원)</option>
+<option value="single5">낱장 5장 (5,000원)</option>
+<option value="set" selected>세트 1~5조 (5,000원)</option>
+</select>
+<button class="main" id="go">자동으로 뽑기</button>
+</div>
+<label class="opt"><input type="checkbox" id="neat"><span>단순 배열 피하기<small>당첨 확률은 같아요. 123456이나 같은 숫자 4개 이상 연속처럼 흔히 몰리는 배열만 피해서 뽑아요.</small></span></label>
+<div class="fixbox">
+<div class="fixhd" id="fixToggle" role="button" tabindex="0" aria-expanded="false"><span>조 · 자리 고정하기 (반자동)<span class="sub" id="fixSummary">선택 안 함</span></span><span id="fixArrow">▾</span></div>
+<div class="fixbody" id="fixBody">
+<div class="fixtop"><span>원하는 조나 자리만 고르면 나머지는 자동으로 채워져요.</span><button type="button" class="fixclr" id="fixClr">초기화</button></div>
+<div class="joRow" id="joRow"><span class="lbl">조</span></div>
+<div class="dgrid" id="dgrid"></div>
+</div>
+</div>
+<div class="ticket" id="ticket">
+<div class="hd"><b>연금복권 720+</b><span id="rd"></span></div>
+<div class="meta"><i>발행일</i><span id="d1"></span><i>추첨일</i><span id="d2"></span><i>지급기한</i><span id="d3"></span></div>
+<div class="rows" id="rows"></div>
+<div class="amt"><span>금액</span><span id="amt">₩0</span></div>
+<div class="bar" aria-hidden="true"></div>
+<div class="fine">참고용 가상 용지예요. 실제 복권이 아니에요.</div>
+</div>
+<div class="act"><button id="copy">결과 복사</button></div>
+<p class="note">재미로만 즐겨주세요. 모든 번호의 당첨 확률은 같아요. 동행복권과는 관련이 없는 페이지예요.<br>© Phoenix Academy (@phoenix1976x)</p>
+</main>
+<script>
+var rowsData=[];
+var fixedJo=0; // 0=자동, 1~5=고정조
+var fixedDig=[null,null,null,null,null,null];
+function p2(n){return n<10?'0'+n:''+n}
+function fmt(d){return d.getFullYear()+'/'+p2(d.getMonth()+1)+'/'+p2(d.getDate())}
+function nextDraw(now){
+  // 매주 목요일 19:05 추첨 (2026-12-03 = 제344회)
+  var day=now.getDay();
+  var diff=(4-day+7)%7;
+  var dr=new Date(now.getFullYear(),now.getMonth(),now.getDate()+diff,19,5,0,0);
+  if(diff===0 && now>dr) dr.setDate(dr.getDate()+7);
+  var base=new Date(2026,11,3,19,5,0,0); // 2026-12-03 = 344회
+  var weeks=Math.round((dr.getTime()-base.getTime())/(7*86400000));
+  return {date:dr,round:344+weeks};
+}
+function isNeatOk(arr){
+  var s=arr.join('');
+  if(/(\d)\1{3,}/.test(s)) return false; // 같은 숫자 4연속 이상 제외
+  var asc=0,desc=0;
+  for(var i=1;i<6;i++){
+    if(arr[i]===arr[i-1]+1){asc++;if(asc>=4)return false}else asc=0;
+    if(arr[i]===arr[i-1]-1){desc++;if(desc>=4)return false}else desc=0;
+  }
+  return true;
+}
+function pickDigits(neat){
+  for(var t=0;t<200;t++){
+    var d=[];
+    for(var i=0;i<6;i++){
+      d.push(fixedDig[i]!==null?fixedDig[i]:Math.floor(Math.random()*10));
+    }
+    if(!neat || isNeatOk(d)) return d;
+  }
+  return d;
+}
+function hasFixed(){
+  var m=document.getElementById('mode').value;
+  if(m!=='set' && fixedJo>0) return true;
+  for(var i=0;i<6;i++) if(fixedDig[i]!==null) return true;
+  return false;
+}
+function updateControls(){
+  var m=document.getElementById('mode').value;
+  var semi=hasFixed();
+  document.getElementById('go').textContent=semi?'반자동으로 뽑기':'자동으로 뽑기';
+  var jbtns=document.querySelectorAll('.jbtn');
+  for(var i=0;i<jbtns.length;i++){
+    jbtns[i].disabled=(m==='set');
+  }
+  var parts=[];
+  if(m!=='set' && fixedJo>0) parts.push(fixedJo+'조');
+  var dstr=fixedDig.map(function(v){return v===null?'?':v}).join('');
+  if(dstr!=='??????') parts.push(dstr);
+  document.getElementById('fixSummary').textContent=parts.length?parts.join(' · '):'선택 안 함';
+}
+function initFixUI(){
+  var jr=document.getElementById('joRow');
+  ['자동','1조','2조','3조','4조','5조'].forEach(function(lbl,idx){
+    var b=document.createElement('button');
+    b.type='button';b.className='jbtn'+(idx===0?' on':'');
+    b.textContent=lbl;
+    b.addEventListener('click',function(){
+      fixedJo=idx;
+      var all=jr.querySelectorAll('.jbtn');
+      for(var i=0;i<all.length;i++) all[i].classList.toggle('on',i===idx);
+      updateControls();
+    });
+    jr.appendChild(b);
+  });
+  var dg=document.getElementById('dgrid');
+  var labels=['십만','만','천','백','십','일'];
+  for(var i=0;i<6;i++){
+    (function(pos){
+      var col=document.createElement('div');col.className='dcol';
+      var sm=document.createElement('small');sm.textContent=labels[pos];
+      var sel=document.createElement('select');
+      sel.className='dsel c'+(pos+1);
+      sel.setAttribute('aria-label',labels[pos]+' 자리');
+      var o0=document.createElement('option');o0.value='';o0.textContent='자동';sel.appendChild(o0);
+      for(var n=0;n<=9;n++){var o=document.createElement('option');o.value=''+n;o.textContent=''+n;sel.appendChild(o)}
+      sel.addEventListener('change',function(){
+        fixedDig[pos]=sel.value===''?null:parseInt(sel.value,10);
+        sel.classList.toggle('on',fixedDig[pos]!==null);
+        updateControls();
+      });
+      col.appendChild(sm);col.appendChild(sel);dg.appendChild(col);
+    })(i);
+  }
+}
+function draw(){
+  var now=new Date();
+  var info=nextDraw(now);
+  var exp=new Date(info.date.getFullYear()+1,info.date.getMonth(),info.date.getDate()+1);
+  if(exp.getDay()===0)exp.setDate(exp.getDate()+1);
+  if(exp.getDay()===6)exp.setDate(exp.getDate()+2);
+  document.getElementById('rd').textContent='제 '+info.round+'회';
+  document.getElementById('d1').textContent=fmt(now)+' '+p2(now.getHours())+':'+p2(now.getMinutes());
+  document.getElementById('d2').textContent=fmt(info.date)+' (목)';
+  document.getElementById('d3').textContent=fmt(exp);
+
+  var m=document.getElementById('mode').value;
+  var neat=document.getElementById('neat').checked;
+  var semi=hasFixed();
+  rowsData=[];
+  if(m==='set'){
+    var base=pickDigits(neat);
+    for(var j=1;j<=5;j++){
+      rowsData.push({jo:j,dig:base.slice(),semi:semi});
+    }
+  }else{
+    var cnt=(m==='single5')?5:1;
+    for(var k=0;k<cnt;k++){
+      var jo=fixedJo>0?fixedJo:(Math.floor(Math.random()*5)+1);
+      rowsData.push({jo:jo,dig:pickDigits(neat),semi:semi});
+    }
+  }
+
+  var html='';
+  var labs=['A','B','C','D','E'];
+  for(var r=0;r<rowsData.length;r++){
+    var item=rowsData[r];
+    html+='<div class="row"><span class="lab">'+labs[r]+'</span><span class="tag">'+(item.semi?'반자동':'자동')+'</span>';
+    html+='<span class="jo">'+item.jo+'</span><span class="jow">조</span><div class="nums">';
+    for(var c=0;c<6;c++){
+      var isFx=(fixedDig[c]!==null);
+      html+='<span class="ball c'+(c+1)+(isFx?' fx':'')+'">'+item.dig[c]+'</span>';
+    }
+    html+='</div></div>';
+  }
+  document.getElementById('rows').innerHTML=html;
+  document.getElementById('amt').textContent='₩'+(rowsData.length*1000).toLocaleString();
+}
+initFixUI();
+updateControls();
+draw();
+
+document.getElementById('mode').addEventListener('change',function(){updateControls();draw()});
+document.getElementById('go').addEventListener('click',draw);
+document.getElementById('fixToggle').addEventListener('click',function(){
+  var b=document.getElementById('fixBody');
+  var op=b.classList.toggle('open');
+  document.getElementById('fixArrow').textContent=op?'▴':'▾';
+  this.setAttribute('aria-expanded',op?'true':'false');
+});
+document.getElementById('fixToggle').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();this.click()}});
+document.getElementById('fixClr').addEventListener('click',function(){
+  fixedJo=0;fixedDig=[null,null,null,null,null,null];
+  var jbtns=document.querySelectorAll('.jbtn');
+  for(var i=0;i<jbtns.length;i++) jbtns[i].classList.toggle('on',i===0);
+  var dsels=document.querySelectorAll('.dsel');
+  for(var i=0;i<dsels.length;i++){dsels[i].value='';dsels[i].classList.remove('on')}
+  updateControls();
+});
+document.getElementById('copy').addEventListener('click',function(){
+  var lines=rowsData.map(function(x){return x.jo+'조 '+x.dig.join('')});
+  var txt=document.getElementById('rd').textContent+' 연금복권 720+\n'+lines.join('\n');
+  var btn=this;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(txt).then(function(){
+      btn.textContent='복사됐어요!';setTimeout(function(){btn.textContent='결과 복사'},1500);
+    });
+  }else{
+    alert(txt);
+  }
+});
+</script>
+</body>
+</html>
