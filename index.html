@@ -948,7 +948,7 @@ function tjDayInfo(saju,code,dow,label){
   return {
     label:label,hz:stem+br,ko:tjKo(stem+br),elTxt:(sEl===bEl?sEl:(sEl||'-')+'·'+(bEl||'-')),
     dow:dow,grade:grade,pills:pills.join(''),
-    summary:rels.length?'오늘 들어오는 기운은 '+sTen+'('+sInfo.label+')예요. 내 '+rels[0].who+' 지지와는 '+rels[0].types.map(function(t){return TJ_REL_NAME[t]}).join('·')+' 관계예요.':'오늘 들어오는 기운은 '+sTen+'('+sInfo.label+')예요. 내 사주 지지와 부딪히거나 얽히는 곳은 없어요.',
+    summary:rels.length?'오늘은 '+sTen+'('+sInfo.label+') 기운이 들어와요. 내 '+rels[0].who+' 지지와는 '+rels[0].types.map(function(t){return TJ_REL_NAME[t]}).join('·')+' 관계예요.':'오늘은 '+sTen+'('+sInfo.label+') 기운이 들어와요. 내 사주 지지와 부딪히거나 얽히는 곳은 없어요.',
     good:goodList.slice(0,2).join(' '),
     warn:warnList.slice(0,2).join(' '),
     money:{title:mTalk.t,cls:mTalk.c,text:mTalk.d},
@@ -983,7 +983,7 @@ function tjLuck(saju,code,score,hasChung){
   function shuffle(a){for(var k=a.length-1;k>0;k--){var j=Math.floor(rnd()*(k+1));var t=a[k];a[k]=a[j];a[j]=t}return a}
   var pool=[];
   for(var n=1;n<=45;n++) if(poolDigits.indexOf(n%10)>=0) pool.push(n);
-  var pick=shuffle(pool.slice()).slice(0,3);
+  var pick=shuffle(pool.slice()).slice(0,4);
   var rest=[];
   for(var m=1;m<=45;m++) if(pick.indexOf(m)<0) rest.push(m);
   shuffle(rest);
