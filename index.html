@@ -971,7 +971,7 @@ function tjLuck(saju,code,score,hasChung){
   push(day.element.stem);
   ((saju.advanced&&saju.advanced.yongsin)||[]).forEach(function(c){push(TJ_STEM_EL[c])});
   var poolDigits=[];
-  els.forEach(function(e){
+  showEls.forEach(function(e){
     (TJ_FIVE_NUM[e]||[]).forEach(function(n){
       if(n<=9&&poolDigits.indexOf(n)<0) poolDigits.push(n);
     });
