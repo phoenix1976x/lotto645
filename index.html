@@ -379,9 +379,7 @@ function pUpdateControls(){
 function pDraw(){
   var now=new Date();
   var info=pNextDraw(now);
-  var exp=new Date(info.date.getFullYear()+1,info.date.getMonth(),info.date.getDate()+1);
-  if(exp.getDay()===0)exp.setDate(exp.getDate()+1);
-  if(exp.getDay()===6)exp.setDate(exp.getDate()+2);
+  var exp=new Date(info.date.getFullYear()+1,info.date.getMonth(),info.date.getDate());
   document.getElementById('p_rd').textContent='제 '+info.round+'회';
   document.getElementById('p_d1').textContent=fmt(now)+' '+p2(now.getHours())+':'+p2(now.getMinutes());
   document.getElementById('p_d2').textContent=fmt(info.date)+' (목)';
